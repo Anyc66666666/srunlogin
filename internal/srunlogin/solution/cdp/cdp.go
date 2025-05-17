@@ -17,6 +17,9 @@ type Options struct {
 	Password string
 	Timeout  time.Duration
 	Flags    map[string]interface{}
+
+	ButtonLoginID  string
+	ButtonLogoutID string
 }
 
 // Solution using Chrome DP
@@ -74,7 +77,7 @@ func (sln *Solution) getTasks() chromedp.Tasks {
 		inputTask("username", sln.opts.Username),
 		inputTask("password", sln.opts.Password),
 		selectISPTask(sln.opts.ISP),
-		loginTask(),
+		loginTask(sln.opts.ButtonLoginID, sln.opts.ButtonLogoutID),
 	}
 }
 
@@ -95,10 +98,12 @@ func selectISPTask(isp string) chromedp.Tasks {
 	}
 }
 
-func loginTask() chromedp.Tasks {
+func loginTask(buttonLoginID, buttonLogoutID string) chromedp.Tasks {
+	loginSel := fmt.Sprintf(`//button[@id="%s"]`, buttonLoginID)
+	logoutSel := fmt.Sprintf(`//button[@id="%s"]`, buttonLogoutID)
 	return chromedp.Tasks{
-		chromedp.WaitVisible(`//button[@id="login"]`, chromedp.BySearch),
-		chromedp.Click(`//button[@id="login"]`, chromedp.BySearch),
-		chromedp.WaitVisible(`//button[@id="logout"]`, chromedp.BySearch),
+		chromedp.WaitVisible(loginSel, chromedp.BySearch),
+		chromedp.Click(loginSel, chromedp.BySearch),
+		chromedp.WaitVisible(logoutSel, chromedp.BySearch),
 	}
 }

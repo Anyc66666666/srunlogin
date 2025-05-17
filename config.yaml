@@ -7,9 +7,13 @@ app:
   test-url: http://www.baidu.com # 用于被校园网重定向到登录页面，请不要设置为能够在不登录的情况下还能解析的域名。
   timeout: 60s # 每次尝试登录的超时时间。
   retry: 3 # 最小有效值为 1。
+button:
+  login-id: login-account # 登录页面HTML中的登录按钮标签id
+  logout-id: btn-logout # 登录页面HTML中的退出按钮标签id
 cdp:
   flags: # 设置参考 https://pkg.go.dev/github.com/chromedp/chromedp。
     headless: true # 设置为 true 则不打开浏览器窗口。
     hide-scrollbars: true
     mute-audio: true
     no-default-browser-check: true # 可能需要设置 headless 为 true 才有效，如果打开窗口运行，可能会在桌面添加图标。
+    no-first-login: true # 设置为true，浏览器则不会弹出首次登录页面。

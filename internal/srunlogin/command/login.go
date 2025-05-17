@@ -51,6 +51,8 @@ func getSolution(solution string) (solution.Solution, error) {
 	username := viper.GetString("account.username")
 	password := viper.GetString("account.password")
 	isp := viper.GetString("account.isp")
+	buttonLoginID := viper.GetString("button.login-id")
+	buttonLogoutID := viper.GetString("button.logout-id")
 
 	switch solution {
 	case "cdp":
@@ -67,6 +69,9 @@ func getSolution(solution string) (solution.Solution, error) {
 			Password: password,
 			Timeout:  timeout,
 			Flags:    cdpFlags,
+
+			ButtonLoginID:  buttonLoginID,
+			ButtonLogoutID: buttonLogoutID,
 		}), nil
 	default:
 		return nil, errSolutionUndefined
